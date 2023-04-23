@@ -28,6 +28,7 @@ DEP_LD_FLAGS="-L${BUILD_DIR_EXTERNAL}/${ANDROID_ABI}/lib $FFMPEG_EXTRA_LD_FLAGS"
 ./configure \
   --prefix=${BUILD_DIR_FFMPEG}/${ANDROID_ABI} \
   --enable-cross-compile \
+  --enable-small \
   --target-os=android \
   --arch=${TARGET_TRIPLE_MACHINE_ARCH} \
   --sysroot=${SYSROOT_PATH} \
@@ -39,7 +40,7 @@ DEP_LD_FLAGS="-L${BUILD_DIR_EXTERNAL}/${ANDROID_ABI}/lib $FFMPEG_EXTRA_LD_FLAGS"
   --nm=${FAM_NM} \
   --ranlib=${FAM_RANLIB} \
   --strip=${FAM_STRIP} \
-  --extra-cflags="-fPIC -Wl,-z,notext $DEP_CFLAGS" \
+  --extra-cflags="-O3 -fPIC $DEP_CFLAGS" \
   --extra-ldflags="$DEP_LD_FLAGS" \
   --disable-shared \
   --enable-static \
@@ -143,6 +144,7 @@ DEP_LD_FLAGS="-L${BUILD_DIR_EXTERNAL}/${ANDROID_ABI}/lib $FFMPEG_EXTRA_LD_FLAGS"
   --enable-jni \
   --enable-nonfree \
   --enable-mediacodec \
+  --enable-version3 \
   --pkg-config=${PKG_CONFIG_EXECUTABLE} \
   ${EXTRA_BUILD_CONFIGURATION_FLAGS} \
   $ADDITIONAL_COMPONENTS || exit 1
@@ -151,19 +153,19 @@ ${MAKE_EXECUTABLE} clean
 ${MAKE_EXECUTABLE} -j${HOST_NPROC}
 ${MAKE_EXECUTABLE} install
 
+
 export STATIC_LIB_DIR=${BUILD_DIR_FFMPEG}/${ANDROID_ABI}/lib
 echo STATIC_LIB_DIR=${STATIC_LIB_DIR}
-echo INSTALL_DIR=${INSTALL_DIR}
 echo FAM_CC=${FAM_CC}
-echo SYSROOT_PATH=${SYSROOT_PATH}
-${FAM_CC} --sysroot=${SYSROOT_PATH} \
-  -L${STATIC_LIB_DIR} \
-  -shared -o ${STATIC_LIB_DIR}/libmerged.so \
-  -Wl,--whole-archive -fPIC \
-  ${STATIC_LIB_DIR}/libavutil.a \
-  ${STATIC_LIB_DIR}/libswscale.a \
-  ${STATIC_LIB_DIR}/libswresample.a \
+
+${FAM_CC} -shared -o ${STATIC_LIB_DIR}/libmergin.so \
+  -Wl,--whole-archive \
   ${STATIC_LIB_DIR}/libavcodec.a \
-  ${STATIC_LIB_DIR}/libavformat.a \
   ${STATIC_LIB_DIR}/libavfilter.a \
-  -Wl,--no-whole-archive -lm -lz -fPIC
+  ${STATIC_LIB_DIR}/libswresample.a \
+  ${STATIC_LIB_DIR}/libavformat.a \
+  ${STATIC_LIB_DIR}/libswscale.a \
+  -Wl,--no-whole-archive
+  
+${FAM_STRIP} --strip-unneeded ${STATIC_LIB_DIR}/libmergin.so
+  
