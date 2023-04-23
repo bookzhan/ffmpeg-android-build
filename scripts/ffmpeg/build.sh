@@ -166,6 +166,6 @@ ${FAM_CC} -shared -o ${STATIC_LIB_DIR}/${OUTPUT_SO_NAME} \
   ${STATIC_LIB_DIR}/libavformat.a \
   ${STATIC_LIB_DIR}/libswscale.a \
   -Wl,--no-whole-archive
-cp ${STATIC_LIB_DIR}/${OUTPUT_SO_NAME} ${STATIC_LIB_DIR}/ffmpeg_debug.so
+
 ${FAM_STRIP} --strip-unneeded ${STATIC_LIB_DIR}/${OUTPUT_SO_NAME}
   
