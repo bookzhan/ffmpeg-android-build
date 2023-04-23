@@ -158,7 +158,7 @@ export STATIC_LIB_DIR=${BUILD_DIR_FFMPEG}/${ANDROID_ABI}/lib
 echo STATIC_LIB_DIR=${STATIC_LIB_DIR}
 echo FAM_CC=${FAM_CC}
 
-${FAM_CC} -shared -o ${STATIC_LIB_DIR}/libmergin.so \
+${FAM_CC} -shared -o ${STATIC_LIB_DIR}/${OUTPUT_SO_NAME} \
   -Wl,--whole-archive \
   ${STATIC_LIB_DIR}/libavcodec.a \
   ${STATIC_LIB_DIR}/libavfilter.a \
@@ -166,6 +166,6 @@ ${FAM_CC} -shared -o ${STATIC_LIB_DIR}/libmergin.so \
   ${STATIC_LIB_DIR}/libavformat.a \
   ${STATIC_LIB_DIR}/libswscale.a \
   -Wl,--no-whole-archive
-  
-${FAM_STRIP} --strip-unneeded ${STATIC_LIB_DIR}/libmergin.so
+cp ${STATIC_LIB_DIR}/${OUTPUT_SO_NAME} ${STATIC_LIB_DIR}/ffmpeg_debug.so
+${FAM_STRIP} --strip-unneeded ${STATIC_LIB_DIR}/${OUTPUT_SO_NAME}
   

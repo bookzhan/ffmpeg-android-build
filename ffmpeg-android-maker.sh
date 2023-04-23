@@ -2,6 +2,8 @@
 
 # Defining essential directories
 
+export OUTPUT_SO_NAME=libbzffmpeg.so
+
 # The root of the project
 export BASE_DIR="$( cd "$( dirname "$0" )" && pwd )"
 # Directory that contains source code for FFmpeg and its dependencies
