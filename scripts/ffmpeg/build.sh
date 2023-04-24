@@ -159,7 +159,8 @@ echo STATIC_LIB_DIR=${STATIC_LIB_DIR}
 echo FAM_CC=${FAM_CC}
 
 ${FAM_CC} -shared -o ${STATIC_LIB_DIR}/${OUTPUT_SO_NAME} \
-  -Wl,--whole-archive \
+  -Wl,--whole-archive,-Bsymbolic \
+  ${STATIC_LIB_DIR}/libavutil.a \
   ${STATIC_LIB_DIR}/libavcodec.a \
   ${STATIC_LIB_DIR}/libavfilter.a \
   ${STATIC_LIB_DIR}/libswresample.a \
