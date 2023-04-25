@@ -25,7 +25,20 @@ ADDITIONAL_COMPONENTS=
 for LIBARY_NAME in ${FFMPEG_EXTERNAL_LIBRARIES[@]}
 do
   ADDITIONAL_COMPONENTS+=" --enable-$LIBARY_NAME"
+  case $LIBARY_NAME in
+        libx264)
+          ADDITIONAL_COMPONENTS+=" --enable-encoder=libx264"
+          ;;
+        libmp3lame)
+          ADDITIONAL_COMPONENTS+=" --enable-decoder=mp3"
+          ;;
+        *)
+          echo "Unknown ADDITIONAL_COMPONENTS LIBARY_NAME: $LIBARY_NAME"
+          ;;
+  esac
 done
+
+echo ADDITIONAL_COMPONENTS=${ADDITIONAL_COMPONENTS}
 
 # Referencing dependencies without pkgconfig
 DEP_CFLAGS="-I${BUILD_DIR_EXTERNAL}/${ANDROID_ABI}/include"
@@ -153,7 +166,7 @@ DEP_LD_FLAGS="-L${BUILD_DIR_EXTERNAL}/${ANDROID_ABI}/lib $FFMPEG_EXTRA_LD_FLAGS"
   --enable-version3 \
   --pkg-config=${PKG_CONFIG_EXECUTABLE} \
   ${EXTRA_BUILD_CONFIGURATION_FLAGS} \
-  $ADDITIONAL_COMPONENTS || exit 1
+  ${ADDITIONAL_COMPONENTS} || exit 1
 
 ${MAKE_EXECUTABLE} clean
 ${MAKE_EXECUTABLE} -j${HOST_NPROC}
