@@ -63,7 +63,6 @@ DEP_LD_FLAGS="-L${BUILD_DIR_EXTERNAL}/${ANDROID_ABI}/lib $FFMPEG_EXTRA_LD_FLAGS"
   --extra-ldflags="$DEP_LD_FLAGS" \
   --disable-shared \
   --enable-static \
-  --disable-vulkan \
   --disable-symver \
   --disable-doc \
   --disable-htmlpages \
