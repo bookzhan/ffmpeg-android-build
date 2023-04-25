@@ -3,10 +3,16 @@
 case $ANDROID_ABI in
   x86)
     # Disabling assembler optimizations, because they have text relocations
-    EXTRA_BUILD_CONFIGURATION_FLAGS="$EXTRA_BUILD_CONFIGURATION_FLAGS --disable-asm"
+    EXTRA_BUILD_CONFIGURATION_FLAGS="$EXTRA_BUILD_CONFIGURATION_FLAGS --disable-neon --disable-asm"
     ;;
   x86_64)
-    EXTRA_BUILD_CONFIGURATION_FLAGS="$EXTRA_BUILD_CONFIGURATION_FLAGS --x86asmexe=${FAM_YASM}"
+    EXTRA_BUILD_CONFIGURATION_FLAGS="$EXTRA_BUILD_CONFIGURATION_FLAGS --disable-neon --disable-asm"
+    ;;
+  armeabi-v7a)
+    EXTRA_BUILD_CONFIGURATION_FLAGS="$EXTRA_BUILD_CONFIGURATION_FLAGS --enable-neon --disable-asm --enable-inline-asm"
+    ;;
+  arm64-v8a)
+    EXTRA_BUILD_CONFIGURATION_FLAGS="$EXTRA_BUILD_CONFIGURATION_FLAGS --enable-neon --disable-asm --enable-inline-asm"
     ;;
 esac
 
@@ -40,7 +46,7 @@ DEP_LD_FLAGS="-L${BUILD_DIR_EXTERNAL}/${ANDROID_ABI}/lib $FFMPEG_EXTRA_LD_FLAGS"
   --nm=${FAM_NM} \
   --ranlib=${FAM_RANLIB} \
   --strip=${FAM_STRIP} \
-  --extra-cflags="-O3 -fPIC $DEP_CFLAGS" \
+  --extra-cflags="-O3 -fPIC -lm -lz -landroid $DEP_CFLAGS" \
   --extra-ldflags="$DEP_LD_FLAGS" \
   --disable-shared \
   --enable-static \
@@ -168,7 +174,7 @@ done
 echo EXTERNAL_STATIC_LIB_PATH=${EXTERNAL_STATIC_LIB_PATH}
 
 ${FAM_CC} -shared -o ${STATIC_LIB_DIR}/${OUTPUT_SO_NAME} \
-  -Wl,--whole-archive,-Bsymbolic \
+  -Wl,--whole-archive \
   ${EXTERNAL_STATIC_LIB_PATH}\
   ${STATIC_LIB_DIR}/libavutil.a \
   ${STATIC_LIB_DIR}/libavcodec.a \
@@ -176,7 +182,11 @@ ${FAM_CC} -shared -o ${STATIC_LIB_DIR}/${OUTPUT_SO_NAME} \
   ${STATIC_LIB_DIR}/libswresample.a \
   ${STATIC_LIB_DIR}/libavformat.a \
   ${STATIC_LIB_DIR}/libswscale.a \
-  -Wl,--no-whole-archive
+  -Wl,--no-whole-archive -lm -lz -landroid
+
+OUTPUT_CONFIG_HEADERS_DIR=${OUTPUT_DIR}/include/${ANDROID_ABI}
+mkdir -p ${OUTPUT_CONFIG_HEADERS_DIR}
+cp config.h ${OUTPUT_CONFIG_HEADERS_DIR}/config.h
 
 ${FAM_STRIP} --strip-unneeded ${STATIC_LIB_DIR}/${OUTPUT_SO_NAME}
   

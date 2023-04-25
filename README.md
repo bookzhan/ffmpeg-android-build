@@ -5,7 +5,14 @@
 [![Android Weekly #378](https://androidweekly.net/issues/issue-378/badge)](https://androidweekly.net/issues/issue-378)
 [![Android Weekly #396](https://androidweekly.net/issues/issue-396/badge)](https://androidweekly.net/issues/issue-396)
 
-<img src="https://github.com/Javernaut/ffmpeg-android-maker/blob/master/images/output_structure.png" width="280" align="right">
+
+这个工程是基于[ffmpeg-android-maker](https://github.com/Javernaut/ffmpeg-android-maker) 修改而来，在此基础上把多个SO合并成了一个SO, 并且裁剪了很多Android日常开发不需要的库，目前SO大小为6M,最低可以裁剪到2M左右，有需要的可以自己裁剪，默认编译了FFmpeg 6.0.0，5.1.1, 4.4.2, 3.4.8，以及集成了libmp3lame，libx264并上传到了github上，大家可以直接使用
+
+This project is based on [ffmpeg-android-maker](https://github.com/Javernaut/ffmpeg-android-maker) with modifications. On this basis, multiple dynamic link libraries (SO) are merged into one and many unnecessary libraries for Android daily development are trimmed. The current size of the SO is 6MB, which can be further trimmed to about 2MB according to specific needs. FFmpeg versions including 6.0.0, 5.1.1, 4.4.2, and 3.4.8 are compiled by default, and libmp3lame and libx264 are integrated. This project has been uploaded to Github for direct use.
+
+<img src="https://github.com/bookzhan/ffmpeg-android-build/blob/master/images/all_branch.png" width="280" align="right">
+
+<img src="https://github.com/bookzhan/ffmpeg-android-build/blob/master/images/all_lib.png" width="280" align="right">
 
 Here is a script that downloads the source code of [FFmpeg](https://www.ffmpeg.org) library and assembles it for Android. The script produces shared libraries (\*.so files) as well as header files (\*.h files). The output structure is represented in the image.
 
