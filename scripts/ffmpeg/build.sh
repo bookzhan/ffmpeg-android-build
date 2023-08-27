@@ -30,7 +30,7 @@ do
           ADDITIONAL_COMPONENTS+=" --enable-encoder=libx264"
           ;;
         libmp3lame)
-          ADDITIONAL_COMPONENTS+=" --enable-decoder=mp3"
+          ADDITIONAL_COMPONENTS+=" --enable-encoder=libmp3lame"
           ;;
         *)
           echo "Unknown ADDITIONAL_COMPONENTS LIBARY_NAME: $LIBARY_NAME"
@@ -72,6 +72,7 @@ DEP_LD_FLAGS="-L${BUILD_DIR_EXTERNAL}/${ANDROID_ABI}/lib $FFMPEG_EXTRA_LD_FLAGS"
   --disable-ffplay \
   --disable-ffmpeg \
   --disable-ffprobe \
+  --disable-ffserver \
   --disable-avdevice \
   --disable-bsfs \
   --disable-devices \
@@ -201,4 +202,4 @@ mkdir -p ${OUTPUT_CONFIG_HEADERS_DIR}
 cp config.h ${OUTPUT_CONFIG_HEADERS_DIR}/config.h
 
 ${FAM_STRIP} --strip-unneeded ${STATIC_LIB_DIR}/${OUTPUT_SO_NAME}
-  
+
