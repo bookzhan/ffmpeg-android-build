@@ -30,7 +30,7 @@ do
           ADDITIONAL_COMPONENTS+=" --enable-encoder=libx264"
           ;;
         libmp3lame)
-          ADDITIONAL_COMPONENTS+=" --enable-decoder=mp3"
+          ADDITIONAL_COMPONENTS+=" --enable-encoder=libmp3lame"
           ;;
         *)
           echo "Unknown ADDITIONAL_COMPONENTS LIBARY_NAME: $LIBARY_NAME"
