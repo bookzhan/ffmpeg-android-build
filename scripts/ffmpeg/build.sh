@@ -72,9 +72,7 @@ DEP_LD_FLAGS="-L${BUILD_DIR_EXTERNAL}/${ANDROID_ABI}/lib $FFMPEG_EXTRA_LD_FLAGS"
   --disable-ffplay \
   --disable-ffmpeg \
   --disable-ffprobe \
-  --disable-avdevice \
   --disable-bsfs \
-  --disable-devices \
   --disable-protocols \
   --disable-postproc \
   --enable-protocol=file \
@@ -116,6 +114,7 @@ DEP_LD_FLAGS="-L${BUILD_DIR_EXTERNAL}/${ANDROID_ABI}/lib $FFMPEG_EXTRA_LD_FLAGS"
   --enable-decoder=mp2 \
   --enable-decoder=indeo4 \
   --enable-decoder=amrnb \
+  --enable-decoder=pcm_u8 \
   --disable-muxers \
   --enable-muxer=mov \
   --enable-muxer=mp4 \
@@ -157,6 +156,7 @@ DEP_LD_FLAGS="-L${BUILD_DIR_EXTERNAL}/${ANDROID_ABI}/lib $FFMPEG_EXTRA_LD_FLAGS"
   --enable-filter=split \
   --enable-filter=amix \
   --enable-filter=anull \
+  --enable-filter=anullsrc \
   --enable-filter=adelay \
   --enable-filter=aloop \
   --enable-filter=concat \
@@ -192,6 +192,7 @@ echo EXTERNAL_STATIC_LIB_PATH=${EXTERNAL_STATIC_LIB_PATH}
 ${FAM_CC} -shared -o ${STATIC_LIB_DIR}/${OUTPUT_SO_NAME} \
   -Wl,--whole-archive \
   ${EXTERNAL_STATIC_LIB_PATH} \
+  ${STATIC_LIB_DIR}/libavdevice.a \
   ${STATIC_LIB_DIR}/libavutil.a \
   ${STATIC_LIB_DIR}/libavcodec.a \
   ${STATIC_LIB_DIR}/libavfilter.a \
