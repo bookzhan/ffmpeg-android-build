@@ -77,6 +77,9 @@ EXTRA_LDFLAGS="-Wl,-z,max-page-size=16384 $DEP_LD_FLAGS"
   --disable-ffmpeg \
   --disable-ffprobe \
   --disable-bsfs \
+  --enable-bsf=h264_metadata \
+  --enable-bsf=hevc_metadata \
+  --enable-bsf=extract_extradata \
   --disable-protocols \
   --disable-postproc \
   --enable-protocol=file \
